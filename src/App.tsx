@@ -8,6 +8,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/restaurantes" element={<VitrineRestaurantes />} />
+      <Route path="/admin/restaurantes" element={<VitrineRestaurantes />} />
     </Routes>
   );
 }
