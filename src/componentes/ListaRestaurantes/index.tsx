@@ -8,12 +8,14 @@ import { IPaginacao } from '../../interfaces/IPaginacao';
 const ListaRestaurantes = () => {
 
   const [restaurantes, steRestaurantes] = useState<IRestaurante[]>([]);
+  const [proximaPagina, setProximaPagina] = useState<string | null>('');
 
   useEffect(() => {
     document.title = 'Restaurantes'
     axios.get<IPaginacao<IRestaurante>>('http://localhost:8000/api/v1/restaurantes/')
       .then(resposta => {
         steRestaurantes(resposta.data.results)
+        setProximaPagina(resposta.data.next)
       })
       .catch(error => {
         console.log(error)
@@ -23,6 +25,7 @@ const ListaRestaurantes = () => {
   return (<section className={style.ListaRestaurantes}>
     <h1>Os restaurantes mais <em>bacanas</em>!</h1>
     {restaurantes?.map(item => <Restaurante restaurante={item} key={item.id} />)}
+    {proximaPagina && <button>Carregar mais</button>}
   </section>)
 }
 
