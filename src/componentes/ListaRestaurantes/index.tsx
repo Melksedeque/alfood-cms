@@ -3,6 +3,7 @@ import IRestaurante from '../../interfaces/IRestaurante';
 import style from './ListaRestaurantes.module.scss';
 import Restaurante from './Restaurante';
 import { useEffect, useState } from 'react';
+import { IPaginacao } from '../../interfaces/IPaginacao';
 
 const ListaRestaurantes = () => {
 
@@ -10,7 +11,7 @@ const ListaRestaurantes = () => {
 
   useEffect(() => {
     document.title = 'Restaurantes'
-    axios.get('http://localhost:8000/api/v1/restaurantes/')
+    axios.get<IPaginacao<IRestaurante>>('http://localhost:8000/api/v1/restaurantes/')
       .then(resposta => {
         steRestaurantes(resposta.data.results)
       })
