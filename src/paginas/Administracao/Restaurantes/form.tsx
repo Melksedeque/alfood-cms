@@ -8,7 +8,7 @@ const FormularioRestaurante = () => {
     const params = useParams();
     useEffect(() => {
         if (params.id) {
-            axios.get<IRestaurante>(`http://localhost:8000/api/v2/restaurantes/${params.id}`)
+            axios.get<IRestaurante>(`http://localhost:8000/api/v2/restaurantes/${params.id}/`)
                 .then(resposta => setNomeRestaurante(resposta.data.nome))
         }
     }, [params])
