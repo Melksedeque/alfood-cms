@@ -3,6 +3,7 @@ import IRestaurante from "../../../interfaces/IRestaurante";
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { Link } from "react-router-dom";
 import http from "../../../http";
+import AppHeader from "../AppHeader";
 
 const AdministracaoRestaurantes = () => {
     const [restaurantes, steRestaurantes] = useState<IRestaurante[]>([]);
@@ -29,29 +30,32 @@ const AdministracaoRestaurantes = () => {
     }
 
     return(
-        <TableContainer component={Paper}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>#</TableCell>
-                        <TableCell>Nome</TableCell>
-                        <TableCell>Opções</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {restaurantes.map((restaurante) => (
-                        <TableRow key={restaurante.id}>
-                            <TableCell>{restaurante.id}</TableCell>
-                            <TableCell>{restaurante.nome}</TableCell>
-                            <TableCell>
-                                [<Link to={`/admin/restaurantes/${restaurante.id}`}>Editar</Link>]
-                                <Button variant="outlined" color="error" onClick={excluir(restaurante)}>Excluir</Button>
-                            </TableCell>
+        <>
+        <AppHeader />
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>#</TableCell>
+                            <TableCell>Nome</TableCell>
+                            <TableCell>Opções</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                        {restaurantes.map((restaurante) => (
+                            <TableRow key={restaurante.id}>
+                                <TableCell>{restaurante.id}</TableCell>
+                                <TableCell>{restaurante.nome}</TableCell>
+                                <TableCell>
+                                    [<Link to={`/admin/restaurantes/${restaurante.id}`}>Editar</Link>]
+                                    <Button variant="outlined" color="error" onClick={excluir(restaurante)}>Excluir</Button>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
     );
 }
 
