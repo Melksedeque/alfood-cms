@@ -3,7 +3,6 @@ import IRestaurante from "../../../interfaces/IRestaurante";
 import { Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import http from "../../../http";
-import AppHeader from "../AdminApp/AppHeader";
 
 const AdministracaoRestaurantes = () => {
     const [restaurantes, steRestaurantes] = useState<IRestaurante[]>([]);
@@ -31,7 +30,6 @@ const AdministracaoRestaurantes = () => {
 
     return(
         <>
-            <AppHeader />
             <Container maxWidth="lg">
                 <Box sx={{display:'flex', flexDirection:'row', justifyContent:'space-between', mb:4}}>
                     <Typography component="h1" variant="h4">
