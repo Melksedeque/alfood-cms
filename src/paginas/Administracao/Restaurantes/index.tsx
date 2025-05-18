@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import IRestaurante from "../../../interfaces/IRestaurante";
 import axios from "axios";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const AdministracaoRestaurantes = () => {
@@ -32,7 +32,7 @@ const AdministracaoRestaurantes = () => {
                             <TableCell>{restaurante.nome}</TableCell>
                             <TableCell>
                                 [<Link to={`/admin/restaurantes/${restaurante.id}`}>Editar</Link>]
-                                [<Link to="/admin/excluir">Excluir</Link>]
+                                <Button variant="outlined" color="error">Excluir</Button>
                             </TableCell>
                         </TableRow>
                     ))}
