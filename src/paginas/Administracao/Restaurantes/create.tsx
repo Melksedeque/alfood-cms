@@ -6,7 +6,6 @@ import IRestaurante from "../../../interfaces/IRestaurante";
 
 const FormularioRestaurante = () => {
     const params = useParams();
-
     useEffect(() => {
         if (params.id) {
             axios.get<IRestaurante>(`http://localhost:8000/api/v2/restaurantes/${params.id}`)
@@ -17,10 +16,18 @@ const FormularioRestaurante = () => {
     const [nomeRestaurante, setNomeRestaurante] = useState<string>('');
     const aoSubmeterForm = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        axios.post('http://localhost:8000/api/v2/restaurantes/', { nome: nomeRestaurante })
+        if (params.id) {
+            axios.put<IRestaurante>(`http://localhost:8000/api/v2/restaurantes/${params.id}/`, { nome: nomeRestaurante })
+               .then(() => {
+                    alert('Restaurante atualizado com sucesso!')
+                })
+            return;
+        } else {
+            axios.post('http://localhost:8000/api/v2/restaurantes/', { nome: nomeRestaurante })
             .then(() => {
                 alert('Restaurante cadastrado com sucesso!')
             })
+        }
     }
 
     return (
