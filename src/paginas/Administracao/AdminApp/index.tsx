@@ -1,5 +1,5 @@
 import { Box, Container, Paper } from "@mui/material"
-import AppHeader from "../AppHeader";
+import AppHeader from "./AppHeader";
 
 const AdminApp = () => {
     return (

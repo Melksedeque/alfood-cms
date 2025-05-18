@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import IRestaurante from "../../../interfaces/IRestaurante";
 import http from "../../../http";
-import AppHeader from "../AppHeader";
+import AppHeader from "../AdminApp/AppHeader";
 
 const FormularioRestaurante = () => {
     const params = useParams();
