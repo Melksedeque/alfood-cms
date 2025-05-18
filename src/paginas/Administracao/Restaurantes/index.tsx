@@ -5,12 +5,12 @@ import { Link } from "react-router-dom";
 import http from "../../../http";
 
 const AdministracaoRestaurantes = () => {
-    const [restaurantes, steRestaurantes] = useState<IRestaurante[]>([]);
+    const [restaurantes, setRestaurantes] = useState<IRestaurante[]>([]);
 
     useEffect(() => {
         http.get<IRestaurante[]>('/restaurantes/')
         .then(resposta => {
-            steRestaurantes(resposta.data)
+            setRestaurantes(resposta.data)
         })
         .catch(error => {
             console.log(error)
@@ -21,7 +21,7 @@ const AdministracaoRestaurantes = () => {
         http.delete(`/restaurantes/${restaurante.id}/`)
             .then(() => {
                 const restaurantesAtualizados = restaurantes.filter(r => r.id !== restaurante.id);
-                steRestaurantes([...restaurantesAtualizados]);
+                setRestaurantes([...restaurantesAtualizados]);
             })
             .catch(error => {
                 console.log(error)
