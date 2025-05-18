@@ -4,6 +4,8 @@ import VitrineRestaurantes from './paginas/VitrineRestaurantes';
 import AdministracaoRestaurantes from './paginas/Administracao/Restaurantes';
 import FormularioRestaurante from './paginas/Administracao/Restaurantes/form';
 import AdminApp from './paginas/Administracao/AdminApp';
+import AdministracaoPratos from './paginas/Administracao/Pratos';
+import FormularioPrato from './paginas/Administracao/Pratos/form';
 
 function App() {
 
@@ -15,6 +17,9 @@ function App() {
         <Route path="restaurantes" element={<AdministracaoRestaurantes />} />
         <Route path="restaurantes/novo" element={<FormularioRestaurante />} />
         <Route path="restaurantes/:id" element={<FormularioRestaurante />} />
+        <Route path="pratos" element={<AdministracaoPratos />} />
+        <Route path="pratos/novo" element={<FormularioPrato />} />
+        <Route path="pratos/:id" element={<FormularioPrato />} />
       </Route>
     </Routes>
   );
