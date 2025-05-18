@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './paginas/Home';
 import VitrineRestaurantes from './paginas/VitrineRestaurantes';
 import AdministracaoRestaurantes from './paginas/Administracao/Restaurantes';
-import FormularioRestaurante from './paginas/Administracao/Restaurantes/create';
+import FormularioRestaurante from './paginas/Administracao/Restaurantes/form';
 
 function App() {
 
