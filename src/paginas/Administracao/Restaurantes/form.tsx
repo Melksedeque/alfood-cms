@@ -3,7 +3,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import IRestaurante from "../../../interfaces/IRestaurante";
-import { displayPartsToString } from "typescript";
 
 const FormularioRestaurante = () => {
     const params = useParams();
