@@ -17,15 +17,15 @@ const FormularioPrato = () => {
     const aoSubmeterForm = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (params.id) {
-            http.put<IPrato>(`/restaurantes/${params.id}/`, { nome: nomePrato })
+            http.put<IPrato>(`/pratos/${params.id}/`, { nome: nomePrato })
                .then(() => {
-                    alert('Restaurante atualizado com sucesso!')
+                    alert('Prato atualizado com sucesso!')
                 })
             return;
         } else {
-            http.post('/restaurantes/', { nome: nomePrato })
+            http.post('/pratos/', { nome: nomePrato })
             .then(() => {
-                alert('Restaurante cadastrado com sucesso!')
+                alert('Prato cadastrado com sucesso!')
             })
         }
     }
