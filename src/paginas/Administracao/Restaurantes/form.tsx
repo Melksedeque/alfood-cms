@@ -1,8 +1,9 @@
-import { Box, Button, TextField, Typography } from "@mui/material"
+import { Box, Button, TextField, Typography, Container, Paper } from "@mui/material"
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import IRestaurante from "../../../interfaces/IRestaurante";
 import http from "../../../http";
+import AppHeader from "../AppHeader";
 
 const FormularioRestaurante = () => {
     const params = useParams();
@@ -31,30 +32,39 @@ const FormularioRestaurante = () => {
     }
 
     return (
-        <Box sx={{display:'flex', flexDirection:'column', alignItems:'center'}}>
-            <Typography component="h1" variant="h4">
-                {params.id ? 'Editar' : 'Cadastrar'} Restaurante
-            </Typography>
-            <Box component="form" onSubmit={aoSubmeterForm}>
-                <TextField
-                    id="standard-basic"
-                    label="Nome do Restaurante"
-                    variant="standard"
-                    value={nomeRestaurante}
-                    onChange={event => setNomeRestaurante(event.target.value)}
-                    fullWidth
-                    required
-                />
-                <Button
-                    type="submit"
-                    variant="outlined"
-                    fullWidth
-                    sx={{marginTop: 2}}
-                >
-                    Salvar
-                </Button>
+        <>
+            <AppHeader />
+            <Box>
+                <Container maxWidth="lg">
+                    <Paper sx={{p: 3}}>
+                        <Box sx={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+                            <Typography component="h1" variant="h4">
+                                {params.id? 'Editar' : 'Cadastrar'} Restaurante
+                            </Typography>
+                            <Box component="form" onSubmit={aoSubmeterForm} sx={{width: '100%'}}>
+                                <TextField
+                                    id="standard-basic"
+                                    label="Nome do Restaurante"
+                                    variant="standard"
+                                    value={nomeRestaurante}
+                                    onChange={event => setNomeRestaurante(event.target.value)}
+                                    fullWidth
+                                    required
+                                />
+                                <Button
+                                    type="submit"
+                                    variant="outlined"
+                                    fullWidth
+                                    sx={{marginTop: 2}}
+                                >
+                                    Salvar
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Paper>
+                </Container>
             </Box>
-        </Box>
+        </>
     )
 }
 
