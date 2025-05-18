@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import IRestaurante from "../../../interfaces/IRestaurante";
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, Button, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import http from "../../../http";
 import AppHeader from "../AppHeader";
@@ -31,30 +31,45 @@ const AdministracaoRestaurantes = () => {
 
     return(
         <>
-        <AppHeader />
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>#</TableCell>
-                            <TableCell>Nome</TableCell>
-                            <TableCell>Opções</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {restaurantes.map((restaurante) => (
-                            <TableRow key={restaurante.id}>
-                                <TableCell>{restaurante.id}</TableCell>
-                                <TableCell>{restaurante.nome}</TableCell>
-                                <TableCell>
-                                    [<Link to={`/admin/restaurantes/${restaurante.id}`}>Editar</Link>]
-                                    <Button variant="outlined" color="error" onClick={excluir(restaurante)}>Excluir</Button>
-                                </TableCell>
+            <AppHeader />
+            <Container maxWidth="lg">
+                <Box sx={{display:'flex', flexDirection:'row', justifyContent:'space-between', mb:4}}>
+                    <Typography component="h1" variant="h4">
+                        Restaurantes
+                    </Typography>
+                    <Button
+                        component={Link}
+                        to="/admin/restaurantes/novo"
+                        variant="outlined"
+                        color="success"
+                    >
+                        + Adicionar
+                    </Button>
+                </Box>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell sx={{width:'7%'}}>#</TableCell>
+                                <TableCell>Nome</TableCell>
+                                <TableCell sx={{width:'19%'}}>Opções</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {restaurantes.map((restaurante) => (
+                                <TableRow key={restaurante.id}>
+                                    <TableCell>{restaurante.id}</TableCell>
+                                    <TableCell>{restaurante.nome}</TableCell>
+                                    <TableCell sx={{display:'flex', justifyContent:'space-between'}}>
+                                        <Button component={Link} to={`/admin/restaurantes/${restaurante.id}`} variant="outlined" color="primary">Editar</Button>
+                                        <Button variant="outlined" color="error" onClick={excluir(restaurante)}>Excluir</Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Container>
         </>
     );
 }
