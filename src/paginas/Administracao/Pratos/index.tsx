@@ -50,6 +50,7 @@ const AdministracaoPratos = () => {
                             <TableRow>
                                 <TableCell sx={{width:'7%'}}>#</TableCell>
                                 <TableCell>Nome</TableCell>
+                                <TableCell sx={{width:'20%'}}>Tags</TableCell>
                                 <TableCell sx={{width:'19%'}}>Opções</TableCell>
                             </TableRow>
                         </TableHead>
@@ -57,7 +58,13 @@ const AdministracaoPratos = () => {
                             {pratos.map((prato) => (
                                 <TableRow key={prato.id}>
                                     <TableCell>{prato.id}</TableCell>
-                                    <TableCell>{prato.nome}</TableCell>
+                                    <TableCell>
+                                        <figure style={{alignItems:'center', display:'flex', margin:0, padding:0, width:'100%'}}>
+                                            <img src={prato.imagem} alt={prato.nome} style={{margin:'0 10px 0 0', maxWidth:"50px"}} />
+                                            <figcaption>{prato.nome}</figcaption>
+                                        </figure>
+                                    </TableCell>
+                                    <TableCell>{prato.tag}</TableCell>
                                     <TableCell sx={{display:'flex', justifyContent:'space-between'}}>
                                         <Button component={Link} to={`/admin/pratos/${prato.id}`} variant="outlined" color="primary">Editar</Button>
                                         <Button variant="outlined" color="error" onClick={excluir(prato)}>Excluir</Button>
