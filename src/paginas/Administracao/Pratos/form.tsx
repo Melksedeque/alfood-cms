@@ -48,7 +48,16 @@ const FormularioPrato = () => {
                 'Content-Type': 'multipart/form-data'
             },
             data: formData
-        }).then(() => alert('Prato cadastrado com sucesso!'))
+        }).then(() => {
+            setNomePrato('');
+            setDescricaoPrato('');
+            setTag('');
+            setRestaurante('');
+            setImagem(null);
+            alert('Prato cadastrado com sucesso!')
+            // TODO: Redirecionar para página de listagem de pratos depois do usuário dar OK no alert
+            
+        })
           .catch(erro => console.log(erro.response.data.detail))
     }
 
