@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import http from "../../../http";
 import IPrato from "../../../interfaces/IPrato";
 import ITag from "../../../interfaces/ITag";
+import IRestaurante from "../../../interfaces/IRestaurante";
 
 const FormularioPrato = () => {
     const params = useParams();
@@ -11,17 +12,14 @@ const FormularioPrato = () => {
     const [descricaoPrato, setDescricaoPrato] = useState<string>('');
     const [tag, setTag] = useState('');
     const [tags, setTags] = useState<ITag[]>([]);
-
-    useEffect(() => {
-        if (params.id) {
-            http.get<IPrato>(`/pratos/${params.id}/`)
-                .then(resposta => setNomePrato(resposta.data.nome))
-        }
-    }, [params])
+    const [restaurante, setRestaurante] = useState('');
+    const [restaurantes, setRestaurantes] = useState<IRestaurante[]>([]);
 
     useEffect(() => {
         http.get<{tags: ITag[]}>(`/tags/`)
             .then(resposta => setTags(resposta.data.tags))
+        http.get<IRestaurante[]>(`/restaurantes/`)
+           .then(resposta => setRestaurantes(resposta.data))
     }, [])
 
     const aoSubmeterForm = (event: React.FormEvent<HTMLFormElement>) => {
@@ -70,6 +68,14 @@ const FormularioPrato = () => {
                         <Select id="" variant="standard" labelId="select-tag" value={tag} onChange={event => setTag(event.target.value)}>
                             {tags.map(tag => <MenuItem key={tag.id} value={tag.id}>
                                 {tag.value}
+                            </MenuItem>)}
+                        </Select>
+                    </FormControl>
+                    <FormControl margin="dense" fullWidth>
+                        <InputLabel id="select-restaurante">Restaurantes</InputLabel>
+                        <Select id="" variant="standard" labelId="select-restaurante" value={restaurante} onChange={event => setRestaurante(event.target.value)}>
+                            {restaurantes.map(restaurante => <MenuItem key={restaurante.id} value={restaurante.id}>
+                                {restaurante.nome}
                             </MenuItem>)}
                         </Select>
                     </FormControl>
