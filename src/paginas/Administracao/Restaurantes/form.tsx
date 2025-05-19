@@ -1,11 +1,12 @@
 import { Box, Button, TextField, Typography, Container } from "@mui/material"
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import IRestaurante from "../../../interfaces/IRestaurante";
 import http from "../../../http";
 
 const FormularioRestaurante = () => {
     const params = useParams();
+    const navigate = useNavigate();
     useEffect(() => {
         if (params.id) {
             http.get<IRestaurante>(`/restaurantes/${params.id}/`)
@@ -20,12 +21,14 @@ const FormularioRestaurante = () => {
             http.put<IRestaurante>(`/restaurantes/${params.id}/`, { nome: nomeRestaurante })
                .then(() => {
                     alert('Restaurante atualizado com sucesso!')
+                    navigate(-1)
                 })
             return;
         } else {
             http.post('/restaurantes/', { nome: nomeRestaurante })
             .then(() => {
                 alert('Restaurante cadastrado com sucesso!')
+                navigate(-1)
             })
         }
     }
