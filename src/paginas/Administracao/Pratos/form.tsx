@@ -2,7 +2,6 @@ import { Box, Button, TextField, Typography, Container, FormControl, InputLabel,
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import http from "../../../http";
-import IPrato from "../../../interfaces/IPrato";
 import ITag from "../../../interfaces/ITag";
 import IRestaurante from "../../../interfaces/IRestaurante";
 
@@ -33,18 +32,24 @@ const FormularioPrato = () => {
 
     const aoSubmeterForm = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (params.id) {
-            http.put<IPrato>(`/pratos/${params.id}/`, { nome: nomePrato })
-               .then(() => {
-                    alert('Prato atualizado com sucesso!')
-                })
-            return;
-        } else {
-            http.post('/pratos/', { nome: nomePrato })
-            .then(() => {
-                alert('Prato cadastrado com sucesso!')
-            })
+        const formData = new FormData();
+        formData.append('nome', nomePrato);
+        formData.append('descricao', descricaoPrato);
+        formData.append('tag', tag);
+        formData.append('restaurante', restaurante);
+        if (imagem) {
+            formData.append('imagem', imagem);
         }
+
+        http.request({
+            url: '/pratos/',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data: formData
+        }).then(() => alert('Prato cadastrado com sucesso!'))
+          .catch(erro => console.log(erro.response.data.detail))
     }
 
     return (
@@ -75,7 +80,7 @@ const FormularioPrato = () => {
                     <FormControl margin="dense" fullWidth>
                         <InputLabel id="select-tag">Tag</InputLabel>
                         <Select id="" variant="standard" labelId="select-tag" value={tag} onChange={event => setTag(event.target.value)} required>
-                            {tags.map(tag => <MenuItem key={tag.id} value={tag.id}>
+                            {tags.map(tag => <MenuItem key={tag.id} value={tag.value}>
                                 {tag.value}
                             </MenuItem>)}
                         </Select>
