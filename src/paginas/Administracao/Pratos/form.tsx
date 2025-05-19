@@ -100,7 +100,6 @@ const FormularioPrato = () => {
 
     return (
         <Container maxWidth="lg">
-            <p>{params.id}</p>
             <Box sx={{display:'flex', flexDirection:'column', alignItems:'center'}}>
                 <Typography component="h1" variant="h4">
                     {params.id? 'Editar' : 'Cadastrar'} Prato
