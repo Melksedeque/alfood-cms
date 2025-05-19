@@ -4,22 +4,12 @@ import style from './ListaRestaurantes.module.scss';
 import Restaurante from './Restaurante';
 import { useEffect, useState } from 'react';
 import { IPaginacao } from '../../interfaces/IPaginacao';
+import { Button } from '@mui/material';
 
 const ListaRestaurantes = () => {
 
   const [restaurantes, setRestaurantes] = useState<IRestaurante[]>([]);
   const [proximaPagina, setProximaPagina] = useState<string | null>('');
-
-  const verMais = () => {
-    axios.get<IPaginacao<IRestaurante>>(proximaPagina!)
-     .then(resposta => {
-        setRestaurantes([...restaurantes, ...resposta.data.results])
-        setProximaPagina(resposta.data.next)
-      })
-     .catch(error => {
-        console.log(error)
-      })
-  }
 
   useEffect(() => {
     document.title = 'Restaurantes'
@@ -33,10 +23,21 @@ const ListaRestaurantes = () => {
       })
   }, [])
 
+  const verMais = () => {
+    axios.get<IPaginacao<IRestaurante>>(proximaPagina!)
+     .then(resposta => {
+        setRestaurantes([...restaurantes, ...resposta.data.results])
+        setProximaPagina(resposta.data.next)
+      })
+     .catch(error => {
+        console.log(error)
+      })
+  }
+
   return (<section className={style.ListaRestaurantes}>
     <h1>Os restaurantes mais <em>bacanas</em>!</h1>
     {restaurantes?.map(item => <Restaurante restaurante={item} key={item.id} />)}
-    {proximaPagina && <button onClick={() => {verMais()}}>Carregar mais</button>}
+    {proximaPagina && <Button variant='outlined' onClick={() => {verMais()}}>Carregar mais</Button>}
   </section>)
 }
 
