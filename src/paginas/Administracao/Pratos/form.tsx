@@ -14,6 +14,15 @@ const FormularioPrato = () => {
     const [tags, setTags] = useState<ITag[]>([]);
     const [restaurante, setRestaurante] = useState('');
     const [restaurantes, setRestaurantes] = useState<IRestaurante[]>([]);
+    const [imagem, setImagem] = useState<File | null>(null);
+    
+    const selecionarArquivo = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files?.length) {
+            setImagem(event.target.files[0]);
+        } else {
+            setImagem(null);
+        }
+    };
 
     useEffect(() => {
         http.get<{tags: ITag[]}>(`/tags/`)
@@ -65,7 +74,7 @@ const FormularioPrato = () => {
                     />
                     <FormControl margin="dense" fullWidth>
                         <InputLabel id="select-tag">Tag</InputLabel>
-                        <Select id="" variant="standard" labelId="select-tag" value={tag} onChange={event => setTag(event.target.value)}>
+                        <Select id="" variant="standard" labelId="select-tag" value={tag} onChange={event => setTag(event.target.value)} required>
                             {tags.map(tag => <MenuItem key={tag.id} value={tag.id}>
                                 {tag.value}
                             </MenuItem>)}
@@ -73,12 +82,13 @@ const FormularioPrato = () => {
                     </FormControl>
                     <FormControl margin="dense" fullWidth>
                         <InputLabel id="select-restaurante">Restaurantes</InputLabel>
-                        <Select id="" variant="standard" labelId="select-restaurante" value={restaurante} onChange={event => setRestaurante(event.target.value)}>
+                        <Select id="" variant="standard" labelId="select-restaurante" value={restaurante} onChange={event => setRestaurante(event.target.value)} required>
                             {restaurantes.map(restaurante => <MenuItem key={restaurante.id} value={restaurante.id}>
                                 {restaurante.nome}
                             </MenuItem>)}
                         </Select>
                     </FormControl>
+                    <input type="file" onChange={selecionarArquivo} />
                     <Button
                         type="submit"
                         variant="outlined"
