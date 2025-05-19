@@ -14,6 +14,8 @@ const FormularioPrato = () => {
     }, [params])
 
     const [nomePrato, setNomePrato] = useState<string>('');
+    const [descricaoPrato, setDescricaoPrato] = useState<string>('');
+    
     const aoSubmeterForm = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (params.id) {
@@ -43,6 +45,15 @@ const FormularioPrato = () => {
                         variant="standard"
                         value={nomePrato}
                         onChange={event => setNomePrato(event.target.value)}
+                        fullWidth
+                        required
+                    />
+                    <TextField
+                        id="standard-basic"
+                        label="Descrição do Prato"
+                        variant="standard"
+                        value={descricaoPrato}
+                        onChange={event => setDescricaoPrato(event.target.value)}
                         fullWidth
                         required
                     />
