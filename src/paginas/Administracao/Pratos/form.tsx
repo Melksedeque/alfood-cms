@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import http from "../../../http";
 import ITag from "../../../interfaces/ITag";
 import IRestaurante from "../../../interfaces/IRestaurante";
+import IPrato from "../../../interfaces/IPrato";
 
 const FormularioPrato = () => {
     const params = useParams();
@@ -14,10 +15,28 @@ const FormularioPrato = () => {
     const [restaurante, setRestaurante] = useState('');
     const [restaurantes, setRestaurantes] = useState<IRestaurante[]>([]);
     const [imagem, setImagem] = useState<File | null>(null);
+    const [imagemUrl, setImagemUrl] = useState('');
+
+    useEffect(() => {
+        if (params.id) {
+            http.get<IPrato>(`/pratos/${params.id}/`)
+               .then(resposta => {
+                    console.log(resposta.data)
+                    setNomePrato(resposta.data.nome)
+                    setDescricaoPrato(resposta.data.descricao)
+                    setTag(resposta.data.tag)
+                    setRestaurante(resposta.data.restaurante.toString())
+                    if (resposta.data.imagem) {
+                        setImagemUrl(resposta.data.imagem)
+                    }
+               })
+        }
+    }, [params])
     
     const selecionarArquivo = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files?.length) {
             setImagem(event.target.files[0]);
+            setImagemUrl('');
         } else {
             setImagem(null);
         }
@@ -41,28 +60,47 @@ const FormularioPrato = () => {
             formData.append('imagem', imagem);
         }
 
-        http.request({
-            url: '/pratos/',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            data: formData
-        }).then(() => {
-            setNomePrato('');
-            setDescricaoPrato('');
-            setTag('');
-            setRestaurante('');
-            setImagem(null);
-            alert('Prato cadastrado com sucesso!')
-            // TODO: Redirecionar para página de listagem de pratos depois do usuário dar OK no alert
-            
-        })
-          .catch(erro => console.log(erro.response.data.detail))
+        if(params.id) {
+            http.request({
+                url: `/pratos/${params.id}/`,
+                method: 'PUT',
+                headers: {
+                    'Content-Type':'multipart/form-data'
+                },
+                data: formData
+            }).then(() => {
+                setNomePrato('');
+                setDescricaoPrato('');
+                setTag('');
+                setRestaurante('');
+                setImagem(null);
+                alert('Prato editado com sucesso!')
+                // TODO: Redirecionar para página de listagem de pratos depois do usuário dar OK no alert
+            })
+        } else {
+            http.request({
+                url: '/pratos/',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                data: formData
+            }).then(() => {
+                setNomePrato('');
+                setDescricaoPrato('');
+                setTag('');
+                setRestaurante('');
+                setImagem(null);
+                alert('Prato cadastrado com sucesso!')
+                // TODO: Redirecionar para página de listagem de pratos depois do usuário dar OK no alert
+            })
+              .catch(erro => console.log(erro.response.data.detail))
+        }
     }
 
     return (
         <Container maxWidth="lg">
+            <p>{params.id}</p>
             <Box sx={{display:'flex', flexDirection:'column', alignItems:'center'}}>
                 <Typography component="h1" variant="h4">
                     {params.id? 'Editar' : 'Cadastrar'} Prato
@@ -102,6 +140,16 @@ const FormularioPrato = () => {
                             </MenuItem>)}
                         </Select>
                     </FormControl>
+                    {imagemUrl && (
+                        <Box sx={{ mt: 2, mb: 2, textAlign: 'left' }}>
+                            <Typography variant="subtitle1">Imagem atual:</Typography>
+                            <img 
+                                src={imagemUrl} 
+                                alt={`Imagem de ${nomePrato}`} 
+                                style={{ maxHeight: '200px', maxWidth: '100%' }} 
+                            />
+                        </Box>
+                    )}
                     <input type="file" onChange={selecionarArquivo} />
                     <Button
                         type="submit"
