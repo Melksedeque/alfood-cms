@@ -1,6 +1,6 @@
 import { Box, Button, TextField, Typography, Container, FormControl, InputLabel, Select, MenuItem } from "@mui/material"
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import http from "../../../http";
 import ITag from "../../../interfaces/ITag";
 import IRestaurante from "../../../interfaces/IRestaurante";
@@ -8,6 +8,7 @@ import IPrato from "../../../interfaces/IPrato";
 
 const FormularioPrato = () => {
     const params = useParams();
+    const navigate = useNavigate();
     const [nomePrato, setNomePrato] = useState<string>('');
     const [descricaoPrato, setDescricaoPrato] = useState<string>('');
     const [tag, setTag] = useState('');
@@ -75,7 +76,7 @@ const FormularioPrato = () => {
                 setRestaurante('');
                 setImagem(null);
                 alert('Prato editado com sucesso!')
-                // TODO: Redirecionar para página de listagem de pratos depois do usuário dar OK no alert
+                navigate(-1)
             })
         } else {
             http.request({
@@ -92,7 +93,7 @@ const FormularioPrato = () => {
                 setRestaurante('');
                 setImagem(null);
                 alert('Prato cadastrado com sucesso!')
-                // TODO: Redirecionar para página de listagem de pratos depois do usuário dar OK no alert
+                navigate(-1)
             })
               .catch(erro => console.log(erro.response.data.detail))
         }
