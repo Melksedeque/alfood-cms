@@ -22,7 +22,6 @@ const FormularioPrato = () => {
         if (params.id) {
             http.get<IPrato>(`/pratos/${params.id}/`)
                .then(resposta => {
-                    console.log(resposta.data)
                     setNomePrato(resposta.data.nome)
                     setDescricaoPrato(resposta.data.descricao)
                     setTag(resposta.data.tag)
