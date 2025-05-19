@@ -1,11 +1,17 @@
-import { Box, Button, TextField, Typography, Container } from "@mui/material"
+import { Box, Button, TextField, Typography, Container, FormControl, InputLabel, Select, MenuItem } from "@mui/material"
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import http from "../../../http";
 import IPrato from "../../../interfaces/IPrato";
+import ITag from "../../../interfaces/ITag";
 
 const FormularioPrato = () => {
     const params = useParams();
+    const [nomePrato, setNomePrato] = useState<string>('');
+    const [descricaoPrato, setDescricaoPrato] = useState<string>('');
+    const [tag, setTag] = useState('');
+    const [tags, setTags] = useState<ITag[]>([]);
+
     useEffect(() => {
         if (params.id) {
             http.get<IPrato>(`/pratos/${params.id}/`)
@@ -13,9 +19,11 @@ const FormularioPrato = () => {
         }
     }, [params])
 
-    const [nomePrato, setNomePrato] = useState<string>('');
-    const [descricaoPrato, setDescricaoPrato] = useState<string>('');
-    
+    useEffect(() => {
+        http.get<{tags: ITag[]}>(`/tags/`)
+            .then(resposta => setTags(resposta.data.tags))
+    }, [])
+
     const aoSubmeterForm = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (params.id) {
@@ -40,23 +48,31 @@ const FormularioPrato = () => {
                 </Typography>
                 <Box component="form" onSubmit={aoSubmeterForm} sx={{width: '100%'}}>
                     <TextField
-                        id="standard-basic"
                         label="Nome do Prato"
                         variant="standard"
                         value={nomePrato}
                         onChange={event => setNomePrato(event.target.value)}
+                        margin="dense"
                         fullWidth
                         required
                     />
                     <TextField
-                        id="standard-basic"
                         label="Descrição do Prato"
                         variant="standard"
                         value={descricaoPrato}
                         onChange={event => setDescricaoPrato(event.target.value)}
+                        margin="dense"
                         fullWidth
                         required
                     />
+                    <FormControl margin="dense" fullWidth>
+                        <InputLabel id="select-tag">Tag</InputLabel>
+                        <Select id="" variant="standard" labelId="select-tag" value={tag} onChange={event => setTag(event.target.value)}>
+                            {tags.map(tag => <MenuItem key={tag.id} value={tag.id}>
+                                {tag.value}
+                            </MenuItem>)}
+                        </Select>
+                    </FormControl>
                     <Button
                         type="submit"
                         variant="outlined"
