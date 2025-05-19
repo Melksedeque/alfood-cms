@@ -7,13 +7,13 @@ import { IPaginacao } from '../../interfaces/IPaginacao';
 
 const ListaRestaurantes = () => {
 
-  const [restaurantes, steRestaurantes] = useState<IRestaurante[]>([]);
+  const [restaurantes, setRestaurantes] = useState<IRestaurante[]>([]);
   const [proximaPagina, setProximaPagina] = useState<string | null>('');
 
   const verMais = () => {
     axios.get<IPaginacao<IRestaurante>>(proximaPagina!)
      .then(resposta => {
-        steRestaurantes([...restaurantes, ...resposta.data.results])
+        setRestaurantes([...restaurantes, ...resposta.data.results])
         setProximaPagina(resposta.data.next)
       })
      .catch(error => {
@@ -25,7 +25,7 @@ const ListaRestaurantes = () => {
     document.title = 'Restaurantes'
     axios.get<IPaginacao<IRestaurante>>('http://localhost:8000/api/v1/restaurantes/')
       .then(resposta => {
-        steRestaurantes(resposta.data.results)
+        setRestaurantes(resposta.data.results)
         setProximaPagina(resposta.data.next)
       })
       .catch(error => {

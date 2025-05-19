@@ -8,6 +8,8 @@ interface RestauranteProps {
 
 const Restaurante = ({ restaurante }: RestauranteProps) => {
 
+  console.log(restaurante.pratos)
+
   return (<section className={estilos.Restaurante}>
     <div className={estilos.Titulo}>
       <h2>{restaurante.nome}</h2>
