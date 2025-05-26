@@ -92,7 +92,7 @@ alfood-cms/
 
 1. Clone o repositório:
 ```bash
-git clone https://seu-repositorio/alfood-cms.git
+git clone https://github.com/Melksedeque/alfood-cms.git
 cd alfood-cms
 ```
 
